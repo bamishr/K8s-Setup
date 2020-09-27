@@ -2,11 +2,11 @@
 
 ### Contents
 
-- [Installing Kubernetes using installer provided by romana](#installing-kubernetes-using-installer-provided-by-romana)
+- [Installing Kubernetes using installer provided by badrish](#installing-kubernetes-using-installer-provided-by-badrish)
 - [Installing Kubernetes](#installing-kubernetes)
   - [Ubuntu](#ubuntu)
   - [Centos](#centos)
-- [Installing Romana using provided containers](#installing-romana-using-provided-containers)
+- [Installing badrish using provided containers](#installing-badrish-using-provided-containers)
 - [Scheduling Pods on Kubernetes master](#scheduling-pods-on-kubernetes-master)
   - [Pre Kubernetes 1.6](#pre-kubernetes-16)
   - [Post Kubernetes 1.6](#post-kubernetes-16)
@@ -20,23 +20,23 @@
   - [Deleting All docker Containers and Images](#deleting-all-docker-containers-and-images)
   - [Copy file form pod to host](#copy-file-form-pod-to-host)
 - [Bringup and Expose Kubernetes Dashboard](#bringup-and-expose-kubernetes-dashboard)
-- [Installing Romana using installer provided by it partially and rest manually](#installing-romana-using-installer-provided-by-it-partially-and-rest-manually)
+- [Installing badrish using installer provided by it partially and rest manually](#installing-badrish-using-installer-provided-by-it-partially-and-rest-manually)
 - [Some useful commands](#some-useful-commands)
 - [Recreate kubeadm join command](#recreate-kubeadm-join-command)
 
-## [Installing Kubernetes using installer provided by romana](#contents)
+## [Installing Kubernetes using installer provided by badrish](#contents)
 
 ```bash
-git clone https://github.com/romana/romana
-cd romana/romana-install
-./romana-setup -n test1 -c 3 -s kubeadm  --verbose install
+git clone https://github.com/badrish/badrish
+cd badrish/badrish-install
+./badrish-setup -n test1 -c 3 -s kubeadm  --verbose install
 
 # now ssh into the machines if you want.
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 1>
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 2>
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 3>
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 1>
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 2>
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 3>
 
-# Done, you have working romana installation..
+# Done, you have working badrish installation..
 ```
 
 ## [Installing Kubernetes](#contents)
@@ -163,12 +163,12 @@ kubectl apply -f kube-flannel.yml
 sudo kubeadm join --token=<token> <ip-address:port>
 ```
 
-## [Installing Romana using provided containers](#contents)
+## [Installing badrish using provided containers](#contents)
 
 ```bash
-wget https://raw.githubusercontent.com/romana/romana/master/containerize/specs/romana-kubeadm.yml
-# make changes to defaults like cidr's, etc in romana-kubeadm.yml if wanted.
-kubectl apply -f romana-kubeadm.yml
+wget https://raw.githubusercontent.com/badrish/badrish/master/containerize/specs/badrish-kubeadm.yml
+# make changes to defaults like cidr's, etc in badrish-kubeadm.yml if wanted.
+kubectl apply -f badrish-kubeadm.yml
 ```
 
 ## [Scheduling Pods on Kubernetes master](#contents)
@@ -382,15 +382,15 @@ kubectl apply -f kubernetes-dashboard-rbac.yaml
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
 ```
 
-## [Installing Romana using installer provided by it partially and rest manually](#contents)
+## [Installing badrish using installer provided by it partially and rest manually](#contents)
 
 ```bash
-git clone https://github.com/romana/romana
-cd romana/romana-install
-./romana-setup -n test1 -c 3 -s nostack  --verbose install
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 1>
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 2>
-ssh -i ~/romana/romana-install/romana_id_rsa ubuntu@<IP Address of the node 3>
+git clone https://github.com/badrish/badrish
+cd badrish/badrish-install
+./badrish-setup -n test1 -c 3 -s nostack  --verbose install
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 1>
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 2>
+ssh -i ~/badrish/badrish-install/badrish_id_rsa ubuntu@<IP Address of the node 3>
 
 # On First node
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -415,9 +415,9 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl get nodes -a -o wide --show-labels
 
-# Install Romana
-wget https://raw.githubusercontent.com/romana/romana/master/containerize/specs/romana-kubeadm.yml
-kubectl create -f romana-kubeadm.yml
+# Install badrish
+wget https://raw.githubusercontent.com/badrish/badrish/master/containerize/specs/badrish-kubeadm.yml
+kubectl create -f badrish-kubeadm.yml
 
 # Remove taints
 kubectl taint nodes --all node-role.kubernetes.io/master:NoSchedule-
